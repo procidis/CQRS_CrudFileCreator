@@ -1,0 +1,16 @@
+using MediatR;
+using FluentValidation;
+
+namespace CrudCreator;
+
+public class xxxQueryHandler : IRequestHandler<xxxQuery, xxxQueryResult>
+{
+    public xxxQueryHandler()
+    {
+    }
+
+    public Task<xxxQueryResult> Handle(xxxQuery request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+}

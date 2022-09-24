@@ -5,29 +5,4 @@ namespace CrudCreator;
 
 public class xxxQuery : IRequest<xxxQueryResult>
 {
-    
-    
-}
-
-public class xxxQueryResult
-{
-}
-
-public class xxxQueryValidator : AbstractValidator<xxxQuery>
-{
-    public xxxQueryValidator()
-    {
-    }
-}
-
-public class xxxQueryHandler : IRequestHandler<xxxQuery, xxxQueryResult>
-{
-    public xxxQueryHandler()
-    {
-    }
-
-    public Task<xxxQueryResult> Handle(xxxQuery request, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
 }

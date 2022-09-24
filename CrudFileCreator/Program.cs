@@ -36,6 +36,7 @@ var createPrefix = $"Create{typeName}";
 var deletePrefix = $"Delete{typeName}";
 var updatePrefix = $"Update{typeName}";
 
+var getQueryPath = Path.Combine(queriesPath, getPrefix);
 var createCommandPath = Path.Combine(commandsPath, createPrefix);
 var deleteCommandPath = Path.Combine(commandsPath, deletePrefix);
 var updateCommandPath = Path.Combine(commandsPath, updatePrefix);
@@ -45,36 +46,77 @@ if (!Directory.Exists(deleteCommandPath)) Directory.CreateDirectory(deleteComman
 if (!Directory.Exists(updateCommandPath)) Directory.CreateDirectory(updateCommandPath);
 
 var queryContent = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Templates", "query_template.txt"));
+var queryResultContent = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Templates", "query_result_template.txt"));
+var queryValidatorContent = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Templates", "query_validator_template.txt"));
+var queryHandlerContent = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Templates", "query_handler_template.txt"));
 var commandContent = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Templates", "command_template.txt"));
- 
+var commandResultContent = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Templates", "command_result_template.txt"));
+var commandValidatorContent = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Templates", "command_validator_template.txt"));
+var commandHandlerContent = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Templates", "command_handler_template.txt"));
+
+string prefix;
 switch (mode)
 {
     case CreationMode.All:
-        CreateFile(queriesPath, getPrefix, queryContent);
-        CreateFile(commandsPath, createPrefix, commandContent);
-        CreateFile(commandsPath, deletePrefix, commandContent);
-        CreateFile(commandsPath, updatePrefix, commandContent);
+        prefix = getPrefix;
+        CreateFile(getQueryPath, $"{prefix}Query", commandContent);
+        CreateFile(getQueryPath, $"{prefix}QueryHandler", commandHandlerContent);
+        CreateFile(getQueryPath, $"{prefix}QueryValidator", commandValidatorContent);
+        CreateFile(getQueryPath, $"{prefix}QueryResult", commandResultContent);
+
+        prefix = createPrefix;
+        CreateFile(createCommandPath, $"{prefix}Command", queryContent);
+        CreateFile(createCommandPath, $"{prefix}CommandHandler", queryHandlerContent);
+        CreateFile(createCommandPath, $"{prefix}CommandValidator", queryValidatorContent);
+        CreateFile(createCommandPath, $"{prefix}CommandResult", queryResultContent);
+
+        prefix = updatePrefix;
+        CreateFile(updateCommandPath, $"{prefix}Command", commandContent);
+        CreateFile(updateCommandPath, $"{prefix}CommandHandler", commandHandlerContent);
+        CreateFile(updateCommandPath, $"{prefix}CommandValidator", commandValidatorContent);
+        CreateFile(updateCommandPath, $"{prefix}CommandResult", commandResultContent);
+
+        prefix = deletePrefix;
+        CreateFile(deleteCommandPath, $"{prefix}Command", commandContent);
+        CreateFile(deleteCommandPath, $"{prefix}CommandHandler", commandHandlerContent);
+        CreateFile(deleteCommandPath, $"{prefix}CommandValidator", commandValidatorContent);
+        CreateFile(deleteCommandPath, $"{prefix}CommandResult", commandResultContent);
         break;
     case CreationMode.Create:
-        CreateFile(commandsPath, createPrefix, commandContent);
+        prefix = createPrefix;
+        CreateFile(createCommandPath, $"{prefix}Command", queryContent);
+        CreateFile(createCommandPath, $"{prefix}CommandHandler", queryHandlerContent);
+        CreateFile(createCommandPath, $"{prefix}CommandValidator", queryValidatorContent);
+        CreateFile(createCommandPath, $"{prefix}CommandResult", queryResultContent);
         break;
     case CreationMode.Get:
-        CreateFile(queriesPath, getPrefix, queryContent);
+        prefix = getPrefix;
+        CreateFile(getQueryPath, $"{prefix}Query", commandContent);
+        CreateFile(getQueryPath, $"{prefix}QueryHandler", commandHandlerContent);
+        CreateFile(getQueryPath, $"{prefix}QueryValidator", commandValidatorContent);
+        CreateFile(getQueryPath, $"{prefix}QueryResult", commandResultContent);
         break;
     case CreationMode.Update:
-        CreateFile(commandsPath, updatePrefix, commandContent);
+        prefix = updatePrefix;
+        CreateFile(updateCommandPath, $"{prefix}Command", commandContent);
+        CreateFile(updateCommandPath, $"{prefix}CommandHandler", commandHandlerContent);
+        CreateFile(updateCommandPath, $"{prefix}CommandValidator", commandValidatorContent);
+        CreateFile(updateCommandPath, $"{prefix}CommandResult", commandResultContent);
         break;
     case CreationMode.Delete:
-        CreateFile(commandsPath, deletePrefix, commandContent);
+        prefix = deletePrefix;
+        CreateFile(deleteCommandPath, $"{prefix}Command", commandContent);
+        CreateFile(deleteCommandPath, $"{prefix}CommandHandler", commandHandlerContent);
+        CreateFile(deleteCommandPath, $"{prefix}CommandValidator", commandValidatorContent);
+        CreateFile(deleteCommandPath, $"{prefix}CommandResult", commandResultContent);
         break;
     default:
         throw new ArgumentOutOfRangeException();
 }
 
-void CreateFile(string path, string prefix, string template)
+void CreateFile(string path, string fileName, string template)
 {
-    path = Path.Combine(path, prefix);
     if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-    var content = template.Replace("xxx", prefix);
-    File.WriteAllText(Path.Combine(path, $"{prefix}.cs"), content);
+    var content = template.Replace("xxx", fileName);
+    File.WriteAllText(Path.Combine(path, $"{fileName}.cs"), content);
 }

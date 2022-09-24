@@ -1,0 +1,11 @@
+using MediatR;
+using FluentValidation;
+
+namespace CrudCreator;
+
+public class xxxQueryValidator : AbstractValidator<xxxQuery>
+{
+    public xxxQueryValidator()
+    {
+    }
+}

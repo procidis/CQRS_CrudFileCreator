@@ -3,7 +3,6 @@ using FluentValidation;
 
 namespace CrudCreator;
 
-public class xxxCommand : IRequest<xxxCommandResult>
+public class xxxQueryResult
 {
-    
 }
