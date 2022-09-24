@@ -1,0 +1,32 @@
+using MediatR;
+using FluentValidation;
+
+namespace CrudCreator;
+
+public class xxxCommand : IRequest<xxxCommandResult>
+{
+    
+}
+
+public class xxxCommandResult
+{
+}
+
+public class xxxCommandValidator : AbstractValidator<xxxCommand>
+{
+    public xxxCommandValidator()
+    {
+    }
+}
+
+public class xxxCommandHandler : IRequestHandler<xxxCommand, xxxCommandResult>
+{
+    public xxxCommandHandler()
+    {
+    }
+
+    public Task<xxxCommandResult> Handle(xxxCommand request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+}
